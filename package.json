@@ -1,0 +1,29 @@
+{
+	"name": "share-files",
+	"version": "1.0.0",
+	"description": "Simple File Sharing",
+	"main": "index.mjs",
+	"dependencies": {
+		"@tinyhttp/app": "^2.2.1",
+		"eta": "^2.2.0",
+		"formidable": "^3.5.1",
+		"sirv": "^2.0.3"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/j3rr7/node-filehost.git"
+	},
+	"scripts": {
+		"start": "node index.mjs"
+	},
+	"keywords": [
+		"file sharing",
+		"network",
+		"Termux",
+		"Android",
+		"local network",
+		"simple"
+	],
+	"author": "Jeremy <jeremy@jerem.my.id>",
+	"license": "MIT"
+}

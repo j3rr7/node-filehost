@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simple File Host</title>
+    <link rel="stylesheet" href="public/css/halfmoon.min.css">
+    <link rel="stylesheet" href="public/css/cores/halfmoon.modern.css">
+
+</head>
+<body>
+
+<div class="container p-5">
+    <h1 class="text-center">Simple File Upload</h1>
+</div>
+<div class="container">
+    <form class="was-validated specific-w-300 mw-100 mx-auto" enctype="multipart/form-data"
+          x-data="{ file: null }"
+          hx-post="/upload"
+          hx-indicator="#progress-bar"
+          hx-swap="outerHTML"
+    >
+        <div class="mb-3">
+            <label for="file-upload" class="form-label text-center">Attach Your File</label>
+            <input type="file" class="form-control" id="file-upload" name="file" multiple required
+                   @change="file = $event.target.files"
+            >
+            <div class="invalid-feedback">
+                At least one file is required.
+            </div>
+        </div>
+        <div class="text-end border-top pt-3">
+            <button class="btn btn-primary w-100 p-2" type="submit" :disabled="file === null">Upload File</button>
+        </div>
+    </form>
+    <div id="progress-bar" class="htmx-indicator" aria-hidden="true">
+        <div class="progress specific-h-25 m-2 flex-grow-1" role="status" aria-label="Upload Progress">
+            <div class="progress-bar placeholder-wave fs-6" style="width: 100%;">Uploading...</div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Filename</th>
+            <th scope="col">Date Modified</th>
+            <th scope="col">Size</th>
+            <th scope="col" class="text-end">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% it.files.forEach(function(file){ %>
+        <tr>
+            <th scope="row"><%= file.filename %></th>
+            <td><%= file.dateModified %></td>
+            <td><%= file.size %></td>
+            <td class="text-end">
+                <!--                <button class="btn btn-danger text-end" data-bs-toggle="modal" data-bs-target="#modal-confirmation">-->
+                <!--                    Delete-->
+                <!--                </button>-->
+                <button class="btn btn-primary text-end" x-data=""
+                        x-on:click="window.location.href = '<%= file.downloadPath %>'">Download
+                </button>
+            </td>
+        </tr>
+        <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<div class="position-absolute top-0 end-0">
+    <div id="notification-container">
+        <% it.notifications.forEach(function(notification){ %>
+        <div class="toast fade show border m-2 border-<%= notification.type %>" role="alert" aria-live="assertive"
+             aria-atomic="true">
+            <div class="toast-header">
+                <span class="badge text-bg-<%= notification.type %> mx-2"><%= notification.type %></span>
+                <strong class="me-auto"><%= notification.title %></strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                <%= notification.message %>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-confirmation" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modal-title-2">Are you sure ?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                You won't be able to revert this! <br> If you delete this file, it will be gone forever.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger">Deleta</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="public/js/bootstrap.bundle.min.js"></script>
+<script src="public/js/cdn.min.js"></script>
+<script src="public/js/htmx.min.js"></script>
+<script src="public/js/custom.js"></script>
+<script lang="javascript">
+  htmx.on('htmx:afterRequest', function (evt) {
+    location.reload();
+  });
+</script>
+</body>
+</html>
