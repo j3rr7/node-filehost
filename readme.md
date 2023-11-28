@@ -1,5 +1,7 @@
 # Simple File Sharing via Network
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fj3rr7%2Fnode-filehost.git) [![Try with Replit Badge](https://replit.com/badge?caption=Try%20with%20Replit)](https://repl.it/github/j3rr7/node-filehost)
+
 ## Description
 
 Aims to provide a simple and convenient way to share files over the network. This project allows users to host the file sharing service on their own devices, such as a PC or mobile phone, and easily transfer files between different devices.
